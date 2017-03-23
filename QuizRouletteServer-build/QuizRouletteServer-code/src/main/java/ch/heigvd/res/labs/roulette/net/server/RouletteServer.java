@@ -80,7 +80,7 @@ public class RouletteServer {
    * ephemeral port
    */
   public RouletteServer(String protocolVersion) {
-    this.listenPort = -1;
+    this.listenPort = 1313;
     this.protocolVersion = protocolVersion;
   }
 
