@@ -45,6 +45,12 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
     out.println(toWrite);
   }
 
+  public RouletteV1ClientImpl()
+  {
+    socket = new Socket();
+    LOG.info(socket.toString());
+  }
+
   @Override
   public void connect(String server, int port) throws IOException
   {
@@ -63,13 +69,23 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   @Override
   public boolean isConnected()
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    LOG.info(String.valueOf(socket.isConnected()));
+    return socket.isConnected();
   }
 
   @Override
   public void loadStudent(String fullname) throws IOException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    serverWrite(RouletteV1Protocol.CMD_LOAD);
+
+    if(!serverRead().equals(RouletteV1Protocol.RESPONSE_LOAD_START))
+      throw new IOException();
+
+    serverWrite(fullname);
+    serverWrite(RouletteV1Protocol.CMD_LOAD_ENDOFDATA_MARKER);
+
+    if(!serverRead().equals(RouletteV1Protocol.RESPONSE_LOAD_DONE))
+      throw new IOException();
   }
 
   @Override
@@ -102,6 +118,7 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   @Override
   public String getProtocolVersion() throws IOException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    serverWrite(RouletteV1Protocol.CMD_INFO);
+    return JsonObjectMapper.parseJson(serverRead(),InfoCommandResponse.class).getProtocolVersion();
   }
 }
