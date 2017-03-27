@@ -34,7 +34,7 @@ public class RouletteV2DbnskyIamfonkyTest {
 
   @Test
   @TestAuthor(githubId = "dbnsky")
-  public void theServerShouldHaveZeroStudentsAfterClear() throws IOException {
+  public void theServerShouldHaveNoStudentsAfterClear() throws IOException {
     IRouletteV2Client client = (IRouletteV2Client) roulettePair.getClient();
     client.loadStudent("Iamfonky");
     client.loadStudent("Dbnsky");
@@ -44,7 +44,7 @@ public class RouletteV2DbnskyIamfonkyTest {
 
   @Test
   @TestAuthor(githubId = "dbnsky")
-  public void theServerShouldReturnListStudent () throws IOException {
+  public void theServerShouldReturnSpecificStudentList () throws IOException {
     IRouletteV2Client client = (IRouletteV2Client) roulettePair.getClient();
     List<Student> studentList = new ArrayList<>();
     studentList.add(new Student("Iamfonky"));
