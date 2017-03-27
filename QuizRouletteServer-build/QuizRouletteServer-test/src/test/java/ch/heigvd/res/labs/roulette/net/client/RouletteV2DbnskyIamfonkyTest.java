@@ -1,11 +1,15 @@
 package ch.heigvd.res.labs.roulette.net.client;
 
+import ch.heigvd.res.labs.roulette.data.Student;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import ch.heigvd.schoolpulse.TestAuthor;
 import org.junit.Test;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -30,10 +34,24 @@ public class RouletteV2DbnskyIamfonkyTest {
 
   @Test
   @TestAuthor(githubId = "dbnsky")
-  public void theServerShouldListenToTheCorrectPort() {
-    assertEquals(RouletteV2Protocol.DEFAULT_PORT, roulettePair.getServer().getPort());
+  public void theServerShouldHaveZeroStudentsAfterClear() throws IOException {
+    IRouletteV2Client client = (IRouletteV2Client) roulettePair.getClient();
+    client.loadStudent("Iamfonky");
+    client.loadStudent("Dbnsky");
+    client.clearDataStore();
+    assertEquals(0, client.getNumberOfStudents());
   }
 
+  @Test
+  @TestAuthor(githubId = "dbnsky")
+  public void theServerShouldReturnListStudent () throws IOException {
+    IRouletteV2Client client = (IRouletteV2Client) roulettePair.getClient();
+    List<Student> studentList = new ArrayList<>();
+    studentList.add(new Student("Iamfonky"));
+    studentList.add(new Student("Dbnksy"));
+    client.loadStudents(studentList);
+    List<Student> studentsListStore = client.listStudents();
+    assertEquals(studentList, studentsListStore);
+  }
 
-  
 }
