@@ -6,17 +6,13 @@ import ch.heigvd.res.labs.roulette.net.protocol.RouletteV1Protocol;
 import ch.heigvd.res.labs.roulette.data.Student;
 import ch.heigvd.res.labs.roulette.net.protocol.InfoCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.RandomCommandResponse;
-import ch.heigvd.res.labs.roulette.net.server.ClientWorker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -31,14 +27,13 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
 
   private Socket socket;
 
-  private InfoCommandResponse icr;
 
-  private String serverRead() throws IOException
+  protected String serverRead() throws IOException
   {
     return (new BufferedReader(new InputStreamReader(socket.getInputStream()))).readLine();
   }
 
-  private void serverWrite(String toWrite) throws IOException
+  protected void serverWrite(String toWrite) throws IOException
   {
     PrintWriter out =
             new PrintWriter(socket.getOutputStream(), true);
@@ -70,7 +65,7 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   public boolean isConnected()
   {
     LOG.info(String.valueOf(socket.isConnected()));
-    return socket.isConnected();
+    return socket.isConnected() && !socket.isClosed();
   }
 
   @Override
@@ -91,7 +86,18 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   @Override
   public void loadStudents(List<Student> students) throws IOException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    serverWrite(RouletteV1Protocol.CMD_LOAD);
+    if(!serverRead().equals(RouletteV1Protocol.RESPONSE_LOAD_START))
+      throw new IOException();
+
+    for (Student student : students) {
+      serverWrite(student.getFullname());
+    }
+    serverWrite(RouletteV1Protocol.CMD_LOAD_ENDOFDATA_MARKER);
+
+    if(!serverRead().equals(RouletteV1Protocol.RESPONSE_LOAD_DONE))
+      throw new IOException();
   }
 
   @Override
