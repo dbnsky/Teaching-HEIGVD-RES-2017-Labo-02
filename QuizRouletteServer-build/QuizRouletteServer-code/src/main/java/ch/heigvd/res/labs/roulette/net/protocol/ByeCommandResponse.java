@@ -9,8 +9,11 @@ package ch.heigvd.res.labs.roulette.net.protocol;
  */
 public class ByeCommandResponse
 {
-    private final String status;
-    private final int nbCommande;
+    private String status;
+    private int nbCommande;
+
+    public ByeCommandResponse(){
+    }
 
     public ByeCommandResponse(String status, int nbCommande){
         this.status = status;
