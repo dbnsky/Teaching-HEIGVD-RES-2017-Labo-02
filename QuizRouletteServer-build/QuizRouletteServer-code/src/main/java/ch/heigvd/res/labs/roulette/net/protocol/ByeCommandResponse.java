@@ -10,21 +10,21 @@ package ch.heigvd.res.labs.roulette.net.protocol;
 public class ByeCommandResponse
 {
     private String status;
-    private int nbCommande;
+    private int numberOfCommands;
 
     public ByeCommandResponse(){
     }
 
     public ByeCommandResponse(String status, int nbCommande){
         this.status = status;
-        this.nbCommande = nbCommande;
+        this.numberOfCommands = nbCommande;
     }
 
     public String getStatus(){
         return status;
     }
 
-    public int getNbCommande(){
-        return nbCommande;
+    public int getNumberOfCommands(){
+        return numberOfCommands;
     }
 }

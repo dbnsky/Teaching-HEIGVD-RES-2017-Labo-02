@@ -93,7 +93,7 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
         if(!bcr.getStatus().equals("success"))
             throw new ByeFailedException();
 
-        LOG.info("You type " + bcr.getNbCommande() + "commands");
+        LOG.info("You type " + bcr.getNumberOfCommands() + "commands");
 
     }
 
