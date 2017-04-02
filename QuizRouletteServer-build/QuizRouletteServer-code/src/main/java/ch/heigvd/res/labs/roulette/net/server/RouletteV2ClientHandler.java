@@ -45,7 +45,6 @@ public class RouletteV2ClientHandler implements IClientHandler {
     while (!done && ((command = reader.readLine()) != null)) {
        nbComands++;
        LOG.log(Level.INFO, "COMMAND: " + nbComands + " : " + command);
-       nbComands++;
        switch (command.toUpperCase())
        {
           case RouletteV1Protocol.CMD_RANDOM:
