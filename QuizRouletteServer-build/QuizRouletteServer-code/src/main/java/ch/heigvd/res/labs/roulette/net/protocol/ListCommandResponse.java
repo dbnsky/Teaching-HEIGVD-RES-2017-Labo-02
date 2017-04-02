@@ -1,6 +1,9 @@
 package ch.heigvd.res.labs.roulette.net.protocol;
 
 import ch.heigvd.res.labs.roulette.data.Student;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,22 +15,23 @@ import java.util.List;
  */
 
 public class ListCommandResponse {
-    private List<Student> listStudent;
+    private Student[] listStudent;
 
     public ListCommandResponse(){
 
     }
 
     public ListCommandResponse(List<Student> list) {
-        this.listStudent = list;
+
+        this.listStudent = (Student[]) list.toArray();
     }
 
     public List<Student> getList() {
-        return listStudent;
+        return Arrays.asList(listStudent);
     }
 
     public Student getAtList(int index){
-        return listStudent.get(index);
+        return listStudent[index];
     }
 
 }
