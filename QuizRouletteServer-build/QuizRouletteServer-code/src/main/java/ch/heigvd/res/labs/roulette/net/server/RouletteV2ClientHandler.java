@@ -46,7 +46,7 @@ public class RouletteV2ClientHandler implements IClientHandler {
        nbComands++;
        LOG.log(Level.INFO, "COMMAND: " + nbComands + " : " + command);
        nbComands++;
-      done = v1Manager(command,writer,reader);
+      done = v2Manager(command,writer,reader) || v1Manager(command,writer,reader);
       writer.flush();
     }
   }
