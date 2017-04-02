@@ -46,7 +46,65 @@ public class RouletteV2ClientHandler implements IClientHandler {
        nbComands++;
        LOG.log(Level.INFO, "COMMAND: " + nbComands + " : " + command);
        nbComands++;
-      done = v2Manager(command,writer,reader) || v1Manager(command,writer,reader);
+       switch (command.toUpperCase())
+       {
+          case RouletteV1Protocol.CMD_RANDOM:
+             RandomCommandResponse rcResponse = new RandomCommandResponse();
+             try {
+                rcResponse.setFullname(store.pickRandomStudent().getFullname());
+             } catch (EmptyStoreException ex) {
+                rcResponse.setError("There is no student, you cannot pick a random one");
+             }
+             writer.println(JsonObjectMapper.toJson(rcResponse));
+             writer.flush();
+             break;
+
+          case RouletteV1Protocol.CMD_HELP:
+             writer.println("Commands: " + Arrays.toString(RouletteV1Protocol.SUPPORTED_COMMANDS));
+             break;
+
+          default:
+             writer.println("Huh? please use HELP if you don't know what commands are available.");
+             writer.flush();
+             break;
+          //V2 PROTOCOL
+          case RouletteV2Protocol.CMD_CLEAR:
+             store.clear();
+             writer.println(RouletteV2Protocol.RESPONSE_CLEAR_DONE);
+             writer.flush();
+             break;
+
+          case RouletteV2Protocol.CMD_LIST:
+             ListCommandResponse listResponse = new ListCommandResponse(store.listStudents());
+             writer.println(JsonObjectMapper.toJson(listResponse));
+             writer.flush();
+             break;
+
+          case RouletteV2Protocol.CMD_LOAD:
+             writer.println(RouletteV1Protocol.RESPONSE_LOAD_START);
+             writer.flush();
+             int nbStudents = store.getNumberOfStudents();
+             store.importData(reader);
+             nbStudents = store.getNumberOfStudents() - nbStudents;
+             LoadCommandResponse lcr = new LoadCommandResponse("success",nbStudents);
+             writer.println(JsonObjectMapper.toJson(lcr));
+             writer.flush();
+             break;
+
+          case RouletteV2Protocol.CMD_BYE:
+             ByeCommandResponse bcr = new ByeCommandResponse("success",nbComands);
+             writer.println(JsonObjectMapper.toJson(bcr));
+             writer.flush();
+             done = true;
+             break;
+
+          case RouletteV2Protocol.CMD_INFO:
+             InfoCommandResponse icr = new InfoCommandResponse(RouletteV2Protocol.VERSION, store.getNumberOfStudents());
+             writer.println(JsonObjectMapper.toJson(icr));
+             writer.flush();
+             break;
+
+       }
       writer.flush();
     }
   }
@@ -70,20 +128,6 @@ public class RouletteV2ClientHandler implements IClientHandler {
       case RouletteV1Protocol.CMD_HELP:
         writer.println("Commands: " + Arrays.toString(RouletteV1Protocol.SUPPORTED_COMMANDS));
         break;
-      case RouletteV1Protocol.CMD_INFO:
-        InfoCommandResponse response = new InfoCommandResponse(RouletteV1Protocol.VERSION, store.getNumberOfStudents());
-        writer.println(JsonObjectMapper.toJson(response));
-        writer.flush();
-        break;
-      case RouletteV1Protocol.CMD_LOAD:
-        writer.println(RouletteV1Protocol.RESPONSE_LOAD_START);
-        writer.flush();
-        store.importData(reader);
-        writer.println(RouletteV1Protocol.RESPONSE_LOAD_DONE);
-        writer.flush();
-        break;
-      case RouletteV1Protocol.CMD_BYE:
-        return true;
       default:
         writer.println("Huh? please use HELP if you don't know what commands are available.");
         writer.flush();
