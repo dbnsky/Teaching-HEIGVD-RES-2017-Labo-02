@@ -49,7 +49,7 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   @Override
   public void connect(String server, int port) throws IOException
   {
-    socket = new Socket("localhost", 1313);
+    socket = new Socket(server, port);
     LOG.info(socket.toString());
     LOG.info(serverRead());
   }
