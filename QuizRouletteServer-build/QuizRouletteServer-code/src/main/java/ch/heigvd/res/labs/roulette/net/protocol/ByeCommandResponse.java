@@ -7,20 +7,21 @@ package ch.heigvd.res.labs.roulette.net.protocol;
  *
  * @author Dbnsky & Iamfonky
  */
-public class loadCommandResponse {
+public class ByeCommandResponse
+{
     private final String status;
-    private final int numberOfNewStudents;
+    private final int nbCommande;
 
-    loadCommandResponse(String status, int nbNewStudents){
+    ByeCommandResponse(String status, int nbCommande){
         this.status = status;
-        this.numberOfNewStudents = nbNewStudents;
+        this.nbCommande = nbCommande;
     }
 
     public String getStatus(){
         return status;
     }
 
-    public int getNumberOfNewStudents(){
-        return numberOfNewStudents;
+    public int getNbCommande(){
+        return nbCommande;
     }
 }
