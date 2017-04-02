@@ -155,6 +155,7 @@ public class RouletteServer {
    */
   public void stopServer() throws IOException {
     shouldRun = false;
+    serverSocket.setReuseAddress(true);
     serverSocket.close();
     for (ClientWorker clientWorker : clientWorkers) {
       clientWorker.notifyServerShutdown();
