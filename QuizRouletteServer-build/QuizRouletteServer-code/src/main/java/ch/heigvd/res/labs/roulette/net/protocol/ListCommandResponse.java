@@ -12,22 +12,21 @@ import java.util.List;
  */
 
 public class ListCommandResponse {
-    private List<Student> listStudent;
+    private List<Student> list;
 
     public ListCommandResponse(){
 
     }
 
     public ListCommandResponse(List<Student> list) {
-        this.listStudent = list;
+        this.list = list;
     }
 
     public List<Student> getList() {
-        return listStudent;
+        return list;
     }
 
     public Student getAtList(int index){
-        return listStudent.get(index);
+        return list.get(index);
     }
-
 }

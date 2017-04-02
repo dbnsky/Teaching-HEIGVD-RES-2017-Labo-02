@@ -90,7 +90,7 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
         ByeCommandResponse bcr = JsonObjectMapper.parseJson(serverRead(),
                 ByeCommandResponse.class);
 
-        if(!bcr.getStatus().equals("Success"))
+        if(!bcr.getStatus().equals("success"))
             throw new ByeFailedException();
 
         LOG.info("You type " + bcr.getNbCommande() + "commands");
