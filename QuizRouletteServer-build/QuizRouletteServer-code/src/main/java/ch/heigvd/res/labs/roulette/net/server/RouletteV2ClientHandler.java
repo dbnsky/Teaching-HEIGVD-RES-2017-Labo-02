@@ -108,7 +108,7 @@ public class RouletteV2ClientHandler implements IClientHandler {
          writer.flush();
          break;
 
-      case RouletteV1Protocol.CMD_LOAD:
+      case RouletteV2Protocol.CMD_LOAD:
         writer.println(RouletteV1Protocol.RESPONSE_LOAD_START);
         writer.flush();
         int nbStudents = store.getNumberOfStudents();
@@ -119,13 +119,13 @@ public class RouletteV2ClientHandler implements IClientHandler {
         writer.flush();
         break;
 
-       case RouletteV1Protocol.CMD_BYE:
+       case RouletteV2Protocol.CMD_BYE:
           ByeCommandResponse bcr = new ByeCommandResponse("success",nbComands);
           writer.println(JsonObjectMapper.toJson(bcr));
           writer.flush();
           return true;
 
-       case RouletteV1Protocol.CMD_INFO:
+       case RouletteV2Protocol.CMD_INFO:
           InfoCommandResponse icr = new InfoCommandResponse(RouletteV2Protocol.VERSION, store.getNumberOfStudents());
           writer.println(JsonObjectMapper.toJson(icr));
           writer.flush();
