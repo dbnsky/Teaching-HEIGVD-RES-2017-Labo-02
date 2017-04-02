@@ -12,7 +12,7 @@ public class LoadCommandResponse
     private final String status;
     private final int numberOfNewStudents;
 
-    LoadCommandResponse(String status, int nbNewStudents){
+    public LoadCommandResponse(String status, int nbNewStudents){
         this.status = status;
         this.numberOfNewStudents = nbNewStudents;
     }

@@ -12,7 +12,7 @@ public class ByeCommandResponse
     private final String status;
     private final int nbCommande;
 
-    ByeCommandResponse(String status, int nbCommande){
+    public ByeCommandResponse(String status, int nbCommande){
         this.status = status;
         this.nbCommande = nbCommande;
     }
