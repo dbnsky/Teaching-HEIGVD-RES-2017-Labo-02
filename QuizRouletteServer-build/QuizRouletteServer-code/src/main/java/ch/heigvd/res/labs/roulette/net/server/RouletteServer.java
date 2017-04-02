@@ -122,6 +122,7 @@ public class RouletteServer {
       case RouletteV1Protocol.VERSION:
         return new RouletteV1ClientHandler(store);
       case RouletteV2Protocol.VERSION:
+        listenPort = RouletteV2Protocol.DEFAULT_PORT;
         return new RouletteV2ClientHandler(store);
     }
     return new RouletteV1ClientHandler(store);
