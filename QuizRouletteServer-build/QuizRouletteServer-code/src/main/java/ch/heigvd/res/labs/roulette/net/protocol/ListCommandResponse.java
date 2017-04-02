@@ -12,7 +12,11 @@ import java.util.List;
  */
 
 public class ListCommandResponse {
-    private final List<Student> listStudent;
+    private List<Student> listStudent;
+
+    public ListCommandResponse(){
+
+    }
 
     public ListCommandResponse(List<Student> list) {
         this.listStudent = list;
