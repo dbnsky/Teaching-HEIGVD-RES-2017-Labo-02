@@ -144,7 +144,7 @@ public class RouletteServer {
    * @return the port on which client connection requests are accepted
    */
   public int getPort() {
-    return serverSocket.getLocalPort();
+    return serverSocket != null ? serverSocket.getLocalPort() : listenPort;
   }
 
   /**
