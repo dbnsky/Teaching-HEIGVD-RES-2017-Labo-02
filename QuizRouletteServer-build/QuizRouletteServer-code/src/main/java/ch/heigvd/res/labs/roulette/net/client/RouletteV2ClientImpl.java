@@ -35,7 +35,7 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
       ListCommandResponse ListStudents = JsonObjectMapper.parseJson(serverRead(),
               ListCommandResponse.class);
 
-      return ListStudents.getList();
+      return ListStudents.getStudents();
   }
 
     @Override
