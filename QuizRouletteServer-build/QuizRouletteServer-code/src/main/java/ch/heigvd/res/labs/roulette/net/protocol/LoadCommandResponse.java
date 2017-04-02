@@ -7,11 +7,12 @@ package ch.heigvd.res.labs.roulette.net.protocol;
  *
  * @author Dbnsky & Iamfonky
  */
-public class LoadCommandResponse {
+public class LoadCommandResponse
+{
     private final String status;
     private final int numberOfNewStudents;
 
-    public LoadCommandResponse(String status, int nbNewStudents){
+    LoadCommandResponse(String status, int nbNewStudents){
         this.status = status;
         this.numberOfNewStudents = nbNewStudents;
     }
