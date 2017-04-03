@@ -5,6 +5,7 @@ import ch.heigvd.res.labs.roulette.data.StudentsStoreImpl;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV1Protocol;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -73,7 +74,6 @@ public class RouletteServer {
   public RouletteServer(int listenPort, String protocolVersion) {
     this.listenPort = listenPort;
     this.protocolVersion = protocolVersion;
-     System.setProperty("http.keepAlive", "false");
   }
 
   /**
@@ -83,17 +83,28 @@ public class RouletteServer {
   public RouletteServer(String protocolVersion) {
     this.listenPort = 1313;
     this.protocolVersion = protocolVersion;
-     System.setProperty("http.keepAlive", "false");
   }
 
   public void startServer() throws IOException {
-    if (serverSocket == null || serverSocket.isBound() == false) {
-      if (listenPort == -1) {
-        bindOnEphemeralPort();
-      } else {
-        bindOnKnownPort(listenPort);
+            boolean succes = false;
+      while(!succes)
+      {
+          try
+          {
+              if (serverSocket == null || serverSocket.isBound() == false) {
+                  if (listenPort == -1) {
+                      bindOnEphemeralPort();
+                  } else {
+                      bindOnKnownPort(listenPort);
+                  }
+              }
+              succes = true;
+          }
+          catch(BindException be)
+          {
+              succes = false;
+          }
       }
-    }
 
     Thread serverThread = new Thread(new Runnable() {
       @Override
@@ -146,8 +157,8 @@ public class RouletteServer {
    * @return the port on which client connection requests are accepted
    */
   public int getPort() {
-    return serverSocket.getLocalPort();
-//    return serverSocket != null ? serverSocket.getLocalPort() : listenPort;
+//    return serverSocket.getLocalPort();
+    return serverSocket != null ? serverSocket.getLocalPort() : listenPort;
   }
 
   /**
@@ -168,7 +179,6 @@ public class RouletteServer {
     serverSocket = new ServerSocket();
     serverSocket.setReuseAddress(true);
     serverSocket.bind(new InetSocketAddress(port));
-    LOG.warning("BIP");
   }
 
   private void bindOnEphemeralPort() throws IOException {
@@ -176,7 +186,6 @@ public class RouletteServer {
     serverSocket.setReuseAddress(true);
     serverSocket.bind(null);
     this.listenPort = serverSocket.getLocalPort();
-    LOG.warning("BOP");
   }
 
   /**

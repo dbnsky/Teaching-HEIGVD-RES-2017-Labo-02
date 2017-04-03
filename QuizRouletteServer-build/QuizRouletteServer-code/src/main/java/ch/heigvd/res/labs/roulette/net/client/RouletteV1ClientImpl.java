@@ -50,6 +50,7 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   @Override
   public void connect(String server, int port) throws IOException
   {
+
     socket = new Socket(server, port);
 
      try
