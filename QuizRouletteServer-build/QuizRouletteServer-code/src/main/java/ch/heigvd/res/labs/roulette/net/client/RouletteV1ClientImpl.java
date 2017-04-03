@@ -44,8 +44,7 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
 
   public RouletteV1ClientImpl()
   {
-    socket = new Socket();
-     LOG.info(socket.toString());
+      socket = new Socket();
   }
 
   @Override
@@ -62,7 +61,6 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
      {
         LOG.warning(e.toString());
      }
-     LOG.info(socket.toString());
     LOG.info(serverRead());
   }
 
