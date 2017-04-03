@@ -38,6 +38,8 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
     PrintWriter out =
             new PrintWriter(socket.getOutputStream(), true);
     out.println(toWrite);
+    out.flush();
+    out.close();
   }
 
   public RouletteV1ClientImpl()
