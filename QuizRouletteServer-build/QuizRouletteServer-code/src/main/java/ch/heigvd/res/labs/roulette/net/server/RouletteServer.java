@@ -155,7 +155,6 @@ public class RouletteServer {
    */
   public void stopServer() throws IOException {
     shouldRun = false;
-    serverSocket.setReuseAddress(true);
     serverSocket.close();
     for (ClientWorker clientWorker : clientWorkers) {
       clientWorker.notifyServerShutdown();
@@ -164,11 +163,13 @@ public class RouletteServer {
 
   private void bindOnKnownPort(int port) throws IOException {
     serverSocket = new ServerSocket();
+    serverSocket.setReuseAddress(true);
     serverSocket.bind(new InetSocketAddress(port));
   }
 
   private void bindOnEphemeralPort() throws IOException {
     serverSocket = new ServerSocket();
+    serverSocket.setReuseAddress(true);
     serverSocket.bind(null);
     this.listenPort = serverSocket.getLocalPort();
   }
