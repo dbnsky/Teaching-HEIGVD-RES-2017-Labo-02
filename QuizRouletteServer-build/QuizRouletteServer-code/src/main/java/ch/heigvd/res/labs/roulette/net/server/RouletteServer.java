@@ -73,6 +73,7 @@ public class RouletteServer {
   public RouletteServer(int listenPort, String protocolVersion) {
     this.listenPort = listenPort;
     this.protocolVersion = protocolVersion;
+     System.setProperty("http.keepAlive", "false");
   }
 
   /**
@@ -82,6 +83,7 @@ public class RouletteServer {
   public RouletteServer(String protocolVersion) {
     this.listenPort = 1313;
     this.protocolVersion = protocolVersion;
+     System.setProperty("http.keepAlive", "false");
   }
 
   public void startServer() throws IOException {
