@@ -167,6 +167,7 @@ public class RouletteServer {
     serverSocket = new ServerSocket();
     serverSocket.setReuseAddress(true);
     serverSocket.bind(new InetSocketAddress(port));
+    LOG.warning("BIP");
   }
 
   private void bindOnEphemeralPort() throws IOException {
@@ -174,6 +175,7 @@ public class RouletteServer {
     serverSocket.setReuseAddress(true);
     serverSocket.bind(null);
     this.listenPort = serverSocket.getLocalPort();
+    LOG.warning("BOP");
   }
 
   /**
