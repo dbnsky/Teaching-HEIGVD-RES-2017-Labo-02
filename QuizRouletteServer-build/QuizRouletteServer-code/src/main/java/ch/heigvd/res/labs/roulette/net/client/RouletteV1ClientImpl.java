@@ -27,30 +27,41 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
 
   protected Socket socket;
 
+   PrintWriter out;
+   BufferedReader in;
 
-  protected String serverRead() throws IOException
+
+   protected String serverRead() throws IOException
   {
-    return (new BufferedReader(new InputStreamReader(socket.getInputStream()))).readLine();
+    return in.readLine();
   }
 
-  protected void serverWrite(String toWrite) throws IOException
+  protected void serverWrite(String toWrite)
   {
-    PrintWriter out =
-            new PrintWriter(socket.getOutputStream(), true);
     out.println(toWrite);
+    out.flush();
   }
 
   public RouletteV1ClientImpl()
   {
-    socket = new Socket();
-    LOG.info(socket.toString());
+      socket = new Socket();
   }
 
   @Override
   public void connect(String server, int port) throws IOException
   {
+
     socket = new Socket(server, port);
-    LOG.info(socket.toString());
+
+     try
+     {
+        out = new PrintWriter(socket.getOutputStream());
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+     }
+     catch (IOException e)
+     {
+        LOG.warning(e.toString());
+     }
     LOG.info(serverRead());
   }
 
@@ -58,6 +69,8 @@ public class RouletteV1ClientImpl implements IRouletteV1Client
   public void disconnect() throws IOException
   {
     serverWrite(RouletteV1Protocol.CMD_BYE);
+    out.close();
+    in.close();
     socket.close();
   }
 

@@ -47,7 +47,7 @@ public class RouletteV2ClientHandler implements IClientHandler {
        LOG.log(Level.INFO, "COMMAND: " + nbComands + " : " + command);
        switch (command.toUpperCase())
        {
-          case RouletteV1Protocol.CMD_RANDOM:
+          case RouletteV2Protocol.CMD_RANDOM:
              RandomCommandResponse rcResponse = new RandomCommandResponse();
              try {
                 rcResponse.setFullname(store.pickRandomStudent().getFullname());
@@ -58,7 +58,7 @@ public class RouletteV2ClientHandler implements IClientHandler {
              writer.flush();
              break;
 
-          case RouletteV1Protocol.CMD_HELP:
+          case RouletteV2Protocol.CMD_HELP:
              writer.println("Commands: " + Arrays.toString(RouletteV1Protocol.SUPPORTED_COMMANDS));
              break;
 
